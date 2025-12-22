@@ -1,0 +1,44 @@
+{
+  "summary": {
+    "total_issues": 3,
+    "high": 1,
+    "medium": 1,
+    "low": 1
+  },
+  "details": [
+    {
+      "id": 1,
+      "doc_file": "README.md",
+      "section": "API Usage",
+      "issue_type": "Outdated Documentation",
+      "severity": "High",
+      "old_behavior": "Usage example showed `fetchUser(userId);` and did not indicate the function is asynchronous or returns a Promise.",
+      "new_behavior": "`fetchUser` is `async` and returns `Promise<{ id: string; name: string }>`; callers must `await` or use `.then()`.
+",
+      "fix_summary": "Updated README to show the function signature, return type, and usage examples using `await` and `.then()`.
+"
+    },
+    {
+      "id": 2,
+      "doc_file": "README.md",
+      "section": "Description",
+      "issue_type": "Outdated Documentation",
+      "severity": "Medium",
+      "old_behavior": "README stated: 'Fetch user data from the server.' suggesting a network call.",
+      "new_behavior": "The implementation is a mock: it resolves with `{ id: userId, name: 'Mock User' }` after a delay and does not perform network requests.",
+      "fix_summary": "Clarified in README that the implementation is a mock and does not perform server/network requests.
+"
+    },
+    {
+      "id": 3,
+      "doc_file": "README.md",
+      "section": "Parameters",
+      "issue_type": "Outdated Documentation",
+      "severity": "Low",
+      "old_behavior": "README omitted the optional `options` parameter and the default timeout behavior.",
+      "new_behavior": "`fetchUser` accepts `options?: { timeout?: number }` and uses `options.timeout` or defaults to `5000` ms.",
+      "fix_summary": "Added `options.timeout` to the README and documented the default of `5000` ms with examples showing an override.
+"
+    }
+  ]
+}
