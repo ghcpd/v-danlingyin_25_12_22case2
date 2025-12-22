@@ -1,0 +1,30 @@
+{
+  "summary": {
+    "total_issues": 2,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "doc_file": "readme.md",
+      "section": "fetchUser description",
+      "issue_type": "Outdated Documentation",
+      "severity": "High",
+      "old_behavior": "Fetch user data from the server.",
+      "new_behavior": "Simulates fetching user data with a configurable timeout (mock implementation).",
+      "fix_summary": "Updated description to reflect mock implementation."
+    },
+    {
+      "id": 2,
+      "doc_file": "readme.md",
+      "section": "Usage",
+      "issue_type": "Outdated Documentation",
+      "severity": "High",
+      "old_behavior": "fetchUser(userId);",
+      "new_behavior": "const user = await fetchUser(\"123\", { timeout: 3000 });\nconsole.log(user.name); // Mock User",
+      "fix_summary": "Updated usage example to include async/await and options parameter."
+    }
+  ]
+}
