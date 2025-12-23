@@ -1,0 +1,185 @@
+oswe-mini-m23a1s255：：
+
+User: Prompt — Documentation & Knowledge (Outdated Docs)
+You are a senior technical writer and software engineer.
+Your task is to review the provided project files and identify outdated documentation, where the documentation no longer matches the actual behavior of the code.
+--------------------------------------------------------------------------------
+Your responsibilities:
+1. Identify outdated documentation
+- Scan all provided documentation files (e.g. README.md, docs/*.md)
+- Compare documented behavior with actual implementation in source code
+- Identify mismatches between:
+- Documented API behavior
+- Actual runtime behavior in code
+For each issue, provide:
+- Documentation file name
+- Section or heading
+- Description of the outdated behavior
+- Description of the actual (current) behavior
+--------------------------------------------------------------------------------
+2. Classify each issue
+For every mismatch, classify:
+- Issue type: Outdated Documentation
+- Severity:
+- High: Causes incorrect usage or breaking integration
+- Medium: Causes confusion but not functional break
+- Low: Minor inconsistency or wording issue
+--------------------------------------------------------------------------------
+3. Produce comparison evidence (Old vs New behavior)
+Generate a structured comparison for each issue:
+Old Behavior (as documented):
+- ...
+
+New Behavior (actual code behavior):
+- ...
+
+--------------------------------------------------------------------------------
+4. Update documentation
+Produce:
+- README_backup.md → unchanged copy of the original documentation
+- README.md → fully updated documentation that matches the current behavior
+Rules:
+- Do NOT change the code
+- Only update documentation
+- The updated docs must be accurate, concise, and technically correct
+--------------------------------------------------------------------------------
+5. Generate a documentation audit report (report.json)
+Use this structure:
+{
+  "summary": {
+    "total_issues": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "doc_file": "README.md",
+      "section": "API Usage",
+      "issue_type": "Outdated Documentation",
+      "severity": "High",
+      "old_behavior": "",
+      "new_behavior": "",
+      "fix_summary": ""
+    }
+  ]
+}
+
+--------------------------------------------------------------------------------
+6. Generate validation evidence
+Produce a file named doc_validation.md that contains:
+- A short explanation of how the updated documentation now matches the code
+- Clear mapping between:
+- Code behavior
+- Updated documentation statements
+--------------------------------------------------------------------------------
+7. Generate a simple README for reviewers
+Produce AUDIT_README.md explaining:
+- What was reviewed
+- What files were generated
+- How to verify documentation correctness
+- How to confirm behavior using the code
+--------------------------------------------------------------------------------
+📌 Rules for the Model
+- MUST NOT hallucinate features not present in code
+- MUST NOT invent documentation files that do not exist
+- MUST clearly show old vs new behavior
+- MUST keep code unchanged
+- MUST keep output structured, minimal, and readable
+- MUST base all conclusions strictly on provided files
+
+GitHub Copilot: Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1223/case2/oswe-mini-m23a1s255/README_backup.md)
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1223/case2/oswe-mini-m23a1s255/report.json)
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1223/case2/oswe-mini-m23a1s255/doc_validation.md)
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1223/case2/oswe-mini-m23a1s255/AUDIT_README.md)
+
+Summary — quick findings
+- Total issues found: 2 (0 high, 1 medium, 1 low)
+- Main problem: README implied error/reject behavior and used examples that could mislead integrators. The code always resolves with mock data.
+
+Where I changed files
+- Updated: README.md
+- Added (audit artifacts): README_backup.md, report.json, doc_validation.md, AUDIT_README.md
+
+1) Identified outdated documentation (concise)
+- Doc file: README.md
+  - Section: "Usage Examples — Promise / Error handling" (examples with `.catch()` and `try/catch`)
+  - Outdated behavior (documented): examples imply `fetchUser` may reject or throw (suggesting network/error paths).
+  - Actual behavior (code): the implementation in input.ts always resolves via `resolve(...)` and never calls `reject`.
+  - Severity: Medium
+  - Old vs New (evidence)
+    - Old (docs): show `.catch()` and `try/catch` implying rejection possible.
+    - New (code): resolves to `{ id: userId, name: "Mock User" }` after `options?.timeout ?? 5000` ms — no rejection path.
+  - Fix summary: examples rewritten and README now explicitly states the function always resolves and is a mock (no network I/O).
+
+- Doc file: README.md
+  - Section: "Usage Examples — top-level await"
+  - Outdated behavior (documented): examples use top-level `await` without environment note.
+  - Actual behavior (code): function behavior is accurate, but callers must use top-level-await-capable environment or wrap calls in an `async` function.
+  - Severity: Low
+  - Old vs New (evidence)
+    - Old (docs): top-level `await` examples with no caveat.
+    - New (docs): added a short note that examples assume top-level `await` or an async wrapper.
+  - Fix summary: prefaced examples with environment note.
+
+2) Comparison evidence (Old vs New behavior) — concrete
+- Issue 1 (error-handling implication)
+  - Old (documented): Example used `.catch()` and `try/catch` and suggested errors could occur.
+  - New (actual): input.ts returns:
+    - const timeout = options?.timeout ?? 5000;
+    - return new Promise((resolve) => { setTimeout(() => { resolve({ id: userId, name: "Mock User" }); }, timeout); });
+    - => always resolves, never rejects.
+
+- Issue 2 (top-level await)
+  - Old (documented): top-level await used without note.
+  - New (actual): implementation works anywhere, but examples now state environment requirement.
+
+3) Severity classification (counts)
+- High: 0
+- Medium: 1 (misleading error-handling examples)
+- Low: 1 (top-level-await caveat)
+
+Files I produced (location: project root)
+- README.md — updated to match code (authoritative behavior, corrected examples)
+- README_backup.md — original README (unchanged)
+- report.json — structured audit report (machine-readable)
+- doc_validation.md — explicit code ↔ documentation mapping / proof
+- AUDIT_README.md — short reviewer guide (what was changed and how to verify)
+
+How the README was changed (short)
+- Explicitly states the function is a mock, always resolves, and never rejects.
+- Removed/rewrote examples that implied rejection; added a note about top-level `await`.
+- Kept the documented API signature, default timeout (5000 ms), and returned value intact.
+
+How you can validate quickly
+- Inspect input.ts — confirm the promise only calls `resolve(...)` and default timeout uses `options?.timeout ?? 5000`.
+- Run a quick in-project check (example snippet — run in an environment that supports top-level await or inside an async function):
+  - const u = await fetchUser('alice', { timeout: 10 }); // expected: { id: 'alice', name: 'Mock User' }
+  - Expect: resolves after ~10 ms; no rejection.
+
+Where to look in the repo
+- Implementation: input.ts
+- Updated docs: README.md
+- Backup of original docs: README_backup.md
+- Audit artifacts: report.json, doc_validation.md, AUDIT_README.md
+
+Would you like any of the following next?
+- I can open a PR with these documentation changes.
+- I can add a short unit test that asserts the function always resolves (no code changes to implementation required).
+- I can produce a short changelog entry or commit message for this documentation update.
+
+(If you want me to run verification or open a PR, tell me which you'd prefer and I will proceed.)
+
+Made changes.

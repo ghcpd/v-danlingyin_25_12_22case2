@@ -1,0 +1,30 @@
+{
+  "summary": {
+    "total_issues": 2,
+    "high": 0,
+    "medium": 1,
+    "low": 1
+  },
+  "details": [
+    {
+      "id": 1,
+      "doc_file": "README.md",
+      "section": "Usage Examples — Promise / Error handling",
+      "issue_type": "Outdated Documentation",
+      "severity": "Medium",
+      "old_behavior": "Examples show `.catch()` and a `try/catch` example that imply `fetchUser` can reject or throw (suggesting network/error paths).",
+      "new_behavior": "The implementation in `input.ts` always resolves (calls `resolve(...)`) after the configured timeout and never rejects. Error-handling examples are therefore misleading.",
+      "fix_summary": "Removed/rewrote examples that implied rejection; added an explicit statement that the function always resolves and does not perform real network I/O."
+    },
+    {
+      "id": 2,
+      "doc_file": "README.md",
+      "section": "Usage Examples — top-level await",
+      "issue_type": "Outdated Documentation",
+      "severity": "Low",
+      "old_behavior": "Several examples use top-level `await` without indicating environment requirements.",
+      "new_behavior": "The code works the same regardless of how it is called, but callers must use an environment that supports top-level `await` or call from within an `async` function. The README now notes that requirement.",
+      "fix_summary": "Clarified example preface to state that examples assume an environment supporting top-level `await` (or an async wrapper)."
+    }
+  ]
+}
