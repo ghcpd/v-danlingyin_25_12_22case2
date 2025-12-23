@@ -1,0 +1,20 @@
+{
+  "summary": {
+    "total_issues": 1,
+    "high": 0,
+    "medium": 1,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "doc_file": "readme.md",
+      "section": "Usage examples / Error handling",
+      "issue_type": "Outdated Documentation",
+      "severity": "Medium",
+      "old_behavior": "Documentation shows examples using `catch`/`try-catch` and suggests error handling is required — implying `fetchUser` may reject or throw.",
+      "new_behavior": "Actual implementation (in `input.ts`) always resolves the returned Promise and never rejects; it only calls `resolve` with mock data after a timeout.",
+      "fix_summary": "Updated `readme.md` to explicitly state that `fetchUser` always resolves and removed/rewrote examples that implied the function may reject. Added clarification in the 'Behavior' and 'Notes on errors / rejection' sections."
+    }
+  ]
+}
