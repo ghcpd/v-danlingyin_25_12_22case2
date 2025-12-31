@@ -1,0 +1,151 @@
+oswe-mini-m23a2s165：：
+
+User: Prompt — Documentation & Knowledge (Outdated Docs)
+You are a senior technical writer and software engineer.
+Your task is to review the provided project files and identify outdated documentation, where the documentation no longer matches the actual behavior of the code.
+--------------------------------------------------------------------------------
+Your responsibilities:
+1. Identify outdated documentation
+- Scan all provided documentation files (e.g. README.md, docs/*.md)
+- Compare documented behavior with actual implementation in source code
+- Identify mismatches between:
+- Documented API behavior
+- Actual runtime behavior in code
+For each issue, provide:
+- Documentation file name
+- Section or heading
+- Description of the outdated behavior
+- Description of the actual (current) behavior
+--------------------------------------------------------------------------------
+2. Classify each issue
+For every mismatch, classify:
+- Issue type: Outdated Documentation
+- Severity:
+- High: Causes incorrect usage or breaking integration
+- Medium: Causes confusion but not functional break
+- Low: Minor inconsistency or wording issue
+--------------------------------------------------------------------------------
+3. Produce comparison evidence (Old vs New behavior)
+Generate a structured comparison for each issue:
+Old Behavior (as documented):
+- ...
+
+New Behavior (actual code behavior):
+- ...
+
+--------------------------------------------------------------------------------
+4. Update documentation
+Produce:
+- README_backup.md → unchanged copy of the original documentation
+- README.md → fully updated documentation that matches the current behavior
+Rules:
+- Do NOT change the code
+- Only update documentation
+- The updated docs must be accurate, concise, and technically correct
+--------------------------------------------------------------------------------
+5. Generate a documentation audit report (report.json)
+Use this structure:
+{
+  "summary": {
+    "total_issues": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "doc_file": "README.md",
+      "section": "API Usage",
+      "issue_type": "Outdated Documentation",
+      "severity": "High",
+      "old_behavior": "",
+      "new_behavior": "",
+      "fix_summary": ""
+    }
+  ]
+}
+
+--------------------------------------------------------------------------------
+6. Generate validation evidence
+Produce a file named doc_validation.md that contains:
+- A short explanation of how the updated documentation now matches the code
+- Clear mapping between:
+- Code behavior
+- Updated documentation statements
+--------------------------------------------------------------------------------
+7. Generate a simple README for reviewers
+Produce AUDIT_README.md explaining:
+- What was reviewed
+- What files were generated
+- How to verify documentation correctness
+- How to confirm behavior using the code
+--------------------------------------------------------------------------------
+📌 Rules for the Model
+- MUST NOT hallucinate features not present in code
+- MUST NOT invent documentation files that do not exist
+- MUST clearly show old vs new behavior
+- MUST keep code unchanged
+- MUST keep output structured, minimal, and readable
+- MUST base all conclusions strictly on provided files
+
+GitHub Copilot: Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1223/case2/oswe-mini-m23a2s165/README_backup.md)
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1223/case2/oswe-mini-m23a2s165/README.md)
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1223/case2/oswe-mini-m23a2s165/report.json)
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1223/case2/oswe-mini-m23a2s165/doc_validation.md)
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1223/case2/oswe-mini-m23a2s165/AUDIT_README.md)
+
+Summary of findings
+- Total issues found: 1 (all in readme.md)
+- Severity: 1 × Medium — documentation implies error/rejection behavior that the code does not implement
+
+Identified issue (concise)
+1) File: readme.md
+   - Section: Usage examples / Error handling
+   - Outdated behavior (documented): Examples use `catch` / `try`-`catch` and imply `fetchUser` may reject or throw.
+   - Actual behavior (code): `fetchUser` always resolves — the Promise executor only calls `resolve` with `{ id: userId, name: "Mock User" }` and never calls `reject`.
+   - Severity: Medium (causes confusion about error handling; not a functional break)
+
+Old vs New behavior (evidence)
+- Old (documented)
+  - Example code shows `.catch(...)` and `try/catch` implying promise rejection is possible.
+- New (actual code)
+  - input.ts sets `timeout = options?.timeout ?? 5000` and returns `new Promise(resolve => setTimeout(() => resolve({ id: userId, name: "Mock User" }), timeout))` — always resolves.
+
+What I changed (documentation only)
+- Updated readme.md to:
+  - Explicitly state that `fetchUser` always resolves and does not reject
+  - Remove/replace examples that implied rejection
+  - Preserve signature, option defaults, and example outputs
+- Created an unchanged backup of the original README: README_backup.md
+- Generated audit artefacts: report.json, doc_validation.md, AUDIT_README.md
+
+Files added/updated
+- Updated: readme.md
+- Added: README_backup.md, report.json, doc_validation.md, AUDIT_README.md
+
+Audit report (top-level)
+- report.json records 1 issue (severity: Medium) and contains Old vs New behavior + fix summary.
+
+Validation
+- doc_validation.md maps updated documentation lines to the exact code behavior in input.ts (default timeout, return shape, always-resolves).
+
+Next suggested actions (optional)
+- Add a short unit test that asserts the promise always resolves (I can add it if you want).
+- If you want the function to simulate failures or rejections, I can propose code changes — otherwise documentation is now aligned with implementation.
+
+Would you like me to add unit tests demonstrating the always-resolve behavior?
+
+Made changes.
