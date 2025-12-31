@@ -1,0 +1,60 @@
+{
+  "summary": {
+    "total_issues": 5,
+    "high": 2,
+    "medium": 2,
+    "low": 1
+  },
+  "details": [
+    {
+      "id": 1,
+      "doc_file": "README.md",
+      "section": "Usage",
+      "issue_type": "Outdated Documentation",
+      "severity": "High",
+      "old_behavior": "Documentation shows only: `fetchUser(userId);` with no parameters documentation or return type information.",
+      "new_behavior": "Function signature is `fetchUser(userId: string, options?: FetchOptions): Promise<{ id: string; name: string }>`. It accepts a required userId parameter and optional FetchOptions parameter, returning a Promise.",
+      "fix_summary": "Updated Usage section to include full function signature, parameter descriptions, and return type information."
+    },
+    {
+      "id": 2,
+      "doc_file": "README.md",
+      "section": "Usage",
+      "issue_type": "Outdated Documentation",
+      "severity": "High",
+      "old_behavior": "FetchOptions interface and timeout behavior not documented anywhere.",
+      "new_behavior": "FetchOptions interface is exported with an optional 'timeout' property (number). Default timeout is 5000ms if not specified.",
+      "fix_summary": "Added 'Options Parameter' section documenting FetchOptions interface and timeout behavior with examples."
+    },
+    {
+      "id": 3,
+      "doc_file": "README.md",
+      "section": "Usage",
+      "issue_type": "Outdated Documentation",
+      "severity": "Medium",
+      "old_behavior": "No code examples showing return value or Promise handling.",
+      "new_behavior": "Function returns Promise that resolves to an object with 'id' (string) and 'name' (string) properties.",
+      "fix_summary": "Added 'Return Value' section and complete code examples showing both basic and advanced usage with proper Promise handling."
+    },
+    {
+      "id": 4,
+      "doc_file": "README.md",
+      "section": "Code Block",
+      "issue_type": "Outdated Documentation",
+      "severity": "Medium",
+      "old_behavior": "Code block in Usage section is not properly closed, creating invalid markdown.",
+      "new_behavior": "Code block is properly opened and closed with triple backticks.",
+      "fix_summary": "Fixed markdown formatting by properly closing the code block."
+    },
+    {
+      "id": 5,
+      "doc_file": "README.md",
+      "section": "Overview",
+      "issue_type": "Outdated Documentation",
+      "severity": "Low",
+      "old_behavior": "No description of what data is returned or what the function does beyond 'Fetch user data from the server'.",
+      "new_behavior": "Function returns mocked user data with id and name, not actual server data. Implementation uses setTimeout simulation.",
+      "fix_summary": "Added clarification that this returns mock user data with realistic timeout-based behavior."
+    }
+  ]
+}
