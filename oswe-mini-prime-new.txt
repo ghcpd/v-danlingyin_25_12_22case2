@@ -1,0 +1,200 @@
+oswe-mini-prime-new：：
+
+User: Prompt — Documentation & Knowledge (Outdated Docs)
+You are a senior technical writer and software engineer.
+Your task is to review the provided project files and identify outdated documentation, where the documentation no longer matches the actual behavior of the code.
+--------------------------------------------------------------------------------
+Your responsibilities:
+1. Identify outdated documentation
+- Scan all provided documentation files (e.g. README.md, docs/*.md)
+- Compare documented behavior with actual implementation in source code
+- Identify mismatches between:
+- Documented API behavior
+- Actual runtime behavior in code
+For each issue, provide:
+- Documentation file name
+- Section or heading
+- Description of the outdated behavior
+- Description of the actual (current) behavior
+--------------------------------------------------------------------------------
+2. Classify each issue
+For every mismatch, classify:
+- Issue type: Outdated Documentation
+- Severity:
+- High: Causes incorrect usage or breaking integration
+- Medium: Causes confusion but not functional break
+- Low: Minor inconsistency or wording issue
+--------------------------------------------------------------------------------
+3. Produce comparison evidence (Old vs New behavior)
+Generate a structured comparison for each issue:
+Old Behavior (as documented):
+- ...
+
+New Behavior (actual code behavior):
+- ...
+
+--------------------------------------------------------------------------------
+4. Update documentation
+Produce:
+- README_backup.md → unchanged copy of the original documentation
+- README.md → fully updated documentation that matches the current behavior
+Rules:
+- Do NOT change the code
+- Only update documentation
+- The updated docs must be accurate, concise, and technically correct
+--------------------------------------------------------------------------------
+5. Generate a documentation audit report (report.json)
+Use this structure:
+{
+  "summary": {
+    "total_issues": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "doc_file": "README.md",
+      "section": "API Usage",
+      "issue_type": "Outdated Documentation",
+      "severity": "High",
+      "old_behavior": "",
+      "new_behavior": "",
+      "fix_summary": ""
+    }
+  ]
+}
+
+--------------------------------------------------------------------------------
+6. Generate validation evidence
+Produce a file named doc_validation.md that contains:
+- A short explanation of how the updated documentation now matches the code
+- Clear mapping between:
+- Code behavior
+- Updated documentation statements
+--------------------------------------------------------------------------------
+7. Generate a simple README for reviewers
+Produce AUDIT_README.md explaining:
+- What was reviewed
+- What files were generated
+- How to verify documentation correctness
+- How to confirm behavior using the code
+--------------------------------------------------------------------------------
+📌 Rules for the Model
+- MUST NOT hallucinate features not present in code
+- MUST NOT invent documentation files that do not exist
+- MUST clearly show old vs new behavior
+- MUST keep code unchanged
+- MUST keep output structured, minimal, and readable
+- MUST base all conclusions strictly on provided files
+
+GitHub Copilot: Great! I found that the README's usage is outdated: it omits that `fetchUser` is asynchronous, doesn't document the `options.timeout` default, and implies a network call while the code returns mock data. My next step is to create a backup of README.md, update README.md, and add `report.json`, `doc_validation.md`, and `AUDIT_README.md`.
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1222/case2/oswe-mini-prime-new/README_backup.md)
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1222/case2/oswe-mini-prime-new/README.md)
+
+Read [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1222/case2/oswe-mini-prime-new/readme.md)
+
+Using "Replace String in File"
+
+
+```
+
+```
+Perfect! The README has been updated to reflect async behavior, options, and that it's a mock implementation. My next step is to add audit files: `report.json`, `doc_validation.md`, and `AUDIT_README.md`.
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1222/case2/oswe-mini-prime-new/report.json)
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1222/case2/oswe-mini-prime-new/doc_validation.md)
+
+Created [](file:///c%3A/Users/v-danlingyin/Documents/microsoft_projects_files/bugBash/1222/case2/oswe-mini-prime-new/AUDIT_README.md)
+
+Perfect! The fix is implemented and audit files are created. My next step is to run or add a runnable example test if you'd like me to (optional).## 📋 Wrap-up — Documentation audit completed ✅
+
+**What I did**
+- Reviewed readme.md against input.ts.
+- Identified documentation mismatches, classified them, and produced fixes and audit artifacts.
+- Created: README_backup.md, updated README.md, report.json, doc_validation.md, and AUDIT_README.md.
+
+---
+
+## 🔍 Issues found
+
+1. **File:** README.md  
+   **Section:** API Usage  
+   **Issue type:** Outdated Documentation  
+   **Severity:** **High**  
+   **Old Behavior (documented):** `fetchUser(userId);` (implied synchronous usage; no return type shown)  
+   **New Behavior (code):** `fetchUser` is `async` and returns `Promise<{ id: string; name: string }>`; callers must `await` it or use `.then()`  
+   **Fix summary:** Updated README to show the signature and examples using `await` and `.then()`.
+
+2. **File:** README.md  
+   **Section:** Description  
+   **Issue type:** Outdated Documentation  
+   **Severity:** **Medium**  
+   **Old Behavior (documented):** “Fetch user data from the server.” (implies a network call)  
+   **New Behavior (code):** Implementation is a mock — it resolves with `{ id, name: "Mock User" }` after a timeout; no network request occurs  
+   **Fix summary:** Clarified README that this is a mock implementation and does not contact a server.
+
+3. **File:** README.md  
+   **Section:** Parameters  
+   **Issue type:** Outdated Documentation  
+   **Severity:** **Low**  
+   **Old Behavior (documented):** `options` and default timeout omitted  
+   **New Behavior (code):** `options?: { timeout?: number }` with default `5000` ms (code: `const timeout = options?.timeout ?? 5000;`)  
+   **Fix summary:** Added `options.timeout` and default value to README with example.
+
+---
+
+## 🧾 Files created / updated
+- **Created:** README_backup.md (original README preserved)  
+- **Updated:** README.md (now accurate and concise)  
+- **Created:** report.json (structured audit report)  
+- **Created:** doc_validation.md (mapping: code → doc claims)  
+- **Created:** AUDIT_README.md (instructions & verification steps)
+
+---
+
+## 📄 report.json (summary)
+- total_issues: **3**  
+- high: **1**, medium: **1**, low: **1**
+
+(Full details available in report.json.)
+
+---
+
+## 🔧 How the updated docs map to code (validation)
+- Signature & return type: matches `export async function fetchUser(...): Promise<{ id: string; name: string }>` — documented in README.md.  
+- Timeout default: code uses `options?.timeout ?? 5000` — README documents `timeout` and default `5000` ms.  
+- Mock behavior: code resolves `{ id, name: 'Mock User' }` via `setTimeout` — README notes the mock implementation and delay.
+
+See doc_validation.md for a concise mapping.
+
+---
+
+## ▶️ How to confirm behavior locally
+1. Import and call the function in a small script (use `ts-node` or compile with `tsc`):  
+   - Example:  
+     ```js
+     const { fetchUser } = require('./input');
+     (async () => {
+       const user = await fetchUser('user-1');
+       console.log(user); // -> { id: 'user-1', name: 'Mock User' } after ~5s
+     })();
+     ```
+2. Verify changing `options.timeout` reduces the delay (e.g., 1000 ms).
+
+(See AUDIT_README.md for full verification steps.)
+
+---
+
+## ✅ Next steps (optional)
+- I can add a tiny runnable example file or a unit test that confirms `timeout` and return values if you want — say the word and I’ll add it.
+
+---
+
+If you'd like, I can now add a short test script or unit test to make verification automatic.
+
+Made changes.
